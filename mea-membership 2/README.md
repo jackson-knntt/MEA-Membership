@@ -34,6 +34,7 @@ never in the code and never visible to anyone filling in the form.
 
 In `app/page.js`, find this commented line inside handleSubmit:
 
+
     // window.location.href = "https://buy.stripe.com/your-link";
 
 Uncomment it and replace the URL with your Stripe payment link. The form will
