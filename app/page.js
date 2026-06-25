@@ -166,7 +166,7 @@ export default function Page() {
           </div>
           <div className="header-text">
             <h1>The Middle East Association</h1>
-            <p>Corporate Membership — £2,500 per year</p>
+            <p>Corporate Membership — £2,500 + VAT per year</p>
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@ export default function Page() {
               {/* Price block */}
               <div className="price-block">
                 <span className="price-amount">£2,500</span>
-                <span className="price-label">per year</span>
+                <span className="price-label">+ VAT per year</span>
               </div>
 
               {/* Benefits */}
@@ -529,7 +529,7 @@ export default function Page() {
               <div className="section-icon">💳</div>
               <div>
                 <h2>Proceed to Payment</h2>
-                <p>Secure payment via Stripe — £2,500 annual membership</p>
+                <p>Secure payment via Stripe — £2,500 + VAT annual membership</p>
               </div>
             </div>
             <div className="form-body">
