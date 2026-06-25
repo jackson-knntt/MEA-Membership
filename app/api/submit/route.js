@@ -1,5 +1,4 @@
-// Server-side only. The Notion token lives in process.env, never in the browser.
-
+// Server-side only. Notion token lives in process.env, never in the browser.
 export async function POST(request) {
   const token = process.env.NOTION_TOKEN;
   const databaseId = process.env.NOTION_DATABASE_ID;
@@ -19,34 +18,72 @@ export async function POST(request) {
   }
 
   const {
-    fullName, companyName, jobTitle, telephone, email,
-    website, vat, applicationDate, termsAccepted,
+    title,
+    firstName,
+    lastName,
+    email,
+    jobTitle,
+    company,
+    linkedin,
+    telephone,
+    website,
+    vat,
+    orgTypes,
+    interests,
+    countriesFocus,
+    menaExperience,
+    speakingInterest,
+    sponsorshipInterest,
+    bio,
+    headshotUrl,
+    applicationDate,
+    termsAccepted,
   } = body;
 
-  // Server-side validation mirrors the form.
-  if (!fullName || !companyName || !jobTitle || !telephone || !email || !applicationDate || !termsAccepted) {
-    return Response.json({ error: "Required fields are missing." }, { status: 400 });
-  }
+  // Build full name from parts
+  const fullName = [title, firstName, lastName].filter(Boolean).join(" ").trim();
 
-  // Property names MUST match the Notion column names exactly.
+  // Combine arrays into readable strings for Notion
+  const orgTypesStr = Array.isArray(orgTypes) ? orgTypes.join(", ") : "";
+  const interestsStr = Array.isArray(interests) ? interests.join(", ") : "";
+
+  // Build a notes block with the richer fields
+  const notes = [
+    orgTypesStr        ? `Organisation type: ${orgTypesStr}` : "",
+    interestsStr       ? `Areas of interest: ${interestsStr}` : "",
+    countriesFocus     ? `Countries / regions of focus: ${countriesFocus}` : "",
+    menaExperience     ? `MENA experience: ${menaExperience}` : "",
+    speakingInterest   ? `Speaking interest: ${speakingInterest}` : "",
+    sponsorshipInterest? `Sponsorship interest: ${sponsorshipInterest}` : "",
+    bio                ? `Bio: ${bio}` : "",
+  ].filter(Boolean).join("\n");
+
+  // Core Notion properties
   const properties = {
     "Full Name & Title": {
-      title: [{ text: { content: String(fullName).slice(0, 2000) } }],
+      title: [{ text: { content: String(fullName || "—").slice(0, 2000) } }],
     },
     "Company Name": {
-      rich_text: [{ text: { content: String(companyName).slice(0, 2000) } }],
+      rich_text: [{ text: { content: String(company || "").slice(0, 2000) } }],
     },
     "Job Title": {
-      rich_text: [{ text: { content: String(jobTitle).slice(0, 2000) } }],
+      rich_text: [{ text: { content: String(jobTitle || "").slice(0, 2000) } }],
     },
-    "Telephone": {
-      rich_text: [{ text: { content: String(telephone).slice(0, 2000) } }],
-    },
-    "Email": { email: String(email) },
     "Terms Accepted": { checkbox: Boolean(termsAccepted) },
-    "Application Date": { date: { start: applicationDate } },
   };
 
+  // Optional properties — only add if values exist
+  if (email && String(email).trim()) {
+    properties["Email"] = { email: String(email).trim() };
+  }
+  if (telephone && String(telephone).trim()) {
+    properties["Telephone"] = {
+      rich_text: [{ text: { content: String(telephone).trim().slice(0, 2000) } }],
+    };
+  }
+  if (linkedin && String(linkedin).trim()) {
+    properties["LinkedIn"] = { url: String(linkedin).trim() };
+  }
   if (website && String(website).trim()) {
     properties["Website"] = { url: String(website).trim() };
   }
@@ -54,6 +91,17 @@ export async function POST(request) {
     properties["VAT Registration Number"] = {
       rich_text: [{ text: { content: String(vat).trim().slice(0, 2000) } }],
     };
+  }
+  if (headshotUrl && String(headshotUrl).trim()) {
+    properties["Headshot"] = { url: String(headshotUrl).trim() };
+  }
+  if (notes.trim()) {
+    properties["Notes"] = {
+      rich_text: [{ text: { content: notes.slice(0, 2000) } }],
+    };
+  }
+  if (applicationDate) {
+    properties["Application Date"] = { date: { start: applicationDate } };
   }
 
   try {
