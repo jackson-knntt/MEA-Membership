@@ -503,3 +503,47 @@ select {
 @media (max-width: 600px) {
   .benefits-grid { grid-template-columns: 1fr; }
 }
+
+/* â”€â”€ Success page â”€â”€ */
+.success-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 8px;
+}
+.success-step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.success-step-number {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: var(--purple);
+  color: #fff;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.success-step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--purple-dark);
+  margin-bottom: 6px;
+}
+.success-step-body {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+.success-link {
+  color: var(--purple);
+  text-decoration: underline;
+}
