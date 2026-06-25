@@ -414,3 +414,92 @@ select {
   .field-row { grid-template-columns: 1fr; }
   .check-group.cols-2 { grid-template-columns: 1fr; }
 }
+
+/* â”€â”€ Step 1: Overview page extras â”€â”€ */
+.price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  background: var(--purple);
+  padding: 18px 24px;
+  border-radius: 6px;
+  margin-bottom: 32px;
+}
+.price-block .price-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+.price-block .price-label {
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.04em;
+}
+
+.benefits-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 16px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.benefit-card {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px;
+}
+.benefit-icon { font-size: 20px; margin-bottom: 8px; }
+.benefit-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--purple-dark);
+  margin-bottom: 6px;
+}
+.benefit-body {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.who-box {
+  background: var(--cream);
+  border-left: 3px solid var(--gold);
+  padding: 18px 22px;
+  border-radius: 0 6px 6px 0;
+}
+.who-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.who-box p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.field-error {
+  display: none;
+  font-size: 12.5px;
+  color: var(--error);
+  margin-top: 6px;
+}
+.field-error.show { display: block; }
+
+@media (max-width: 600px) {
+  .benefits-grid { grid-template-columns: 1fr; }
+}
